@@ -78,6 +78,34 @@ void append_linked_list(LinkedList *list, void *item){
 }
 
 
+void *pop_linked_list(LinkedList *list){
+	/**
+	 * Removes the last node of the linked list, returning the data contained,
+	 * but freeing everything else
+	 */
+	if(list == NULL){
+		return NULL;
+	}
+	
+	struct linked_list_node *node = list->end;
+	if(node == NULL){
+		return NULL;
+	}
+	void *data = node->data;
+	
+	if(node->last == NULL){
+		list->begin = NULL;
+	}else{
+		node->last->next = NULL;
+	}
+	list->end = node->last;
+	
+	free(node);
+	
+	return data;
+}
+
+
 /*
  * Methods for retrieving data from linked lists
  */

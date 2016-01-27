@@ -22,6 +22,7 @@ LinkedList *create_linked_list(unsigned long);
 LinkedList *create_linked_list_from_array(unsigned long, void*, int);
 
 void append_linked_list(LinkedList*, void*);
+void *pop_linked_list(LinkedList*);
 
 int count_linked_list(LinkedList*);
 void *get_linked_list(LinkedList*, int);

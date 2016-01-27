@@ -496,7 +496,7 @@ FiniteAutomaton *copy_automaton(FiniteAutomaton *original){
 
 void print_automaton(FiniteAutomaton *automaton){
 	/**
-	 * Prints the specified finite automaton to the command line
+	 * Prints the specified finite automaton to the console.
 	 */
 	int i, j;
 	printf("\n");

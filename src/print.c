@@ -12,3 +12,15 @@ void print_separator_line(char c){
 	}
 	printf("\n");
 }
+
+
+void print_byte_data(void *data, unsigned long n_bytes){
+	/**
+	 * Prints the first n_bytes starting at data as hexidecimals.
+	 */
+	int i;
+	for(i = 0; i < n_bytes; i++){
+		unsigned char *c = data + i;
+		printf("%2x", *c);
+	}
+}

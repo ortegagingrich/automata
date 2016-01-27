@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "automata.h"
+#include "linked_list.h"
 
 void test();
 void test2();
@@ -9,8 +10,9 @@ void test2();
 int main(int argc, char *argv[]){
 	printf("Starting.\n");
 	
-	test();
-	test2();
+	//test();
+	//test2();
+	linked_list_test();
 	
 	return 0;
 }
@@ -46,7 +48,8 @@ void test(){
 }
 
 void test2(){
-	printf("%d\n", sizeof(void*));
+	printf("%lu\n", sizeof(sizeof(struct automaton_transition)));
+	printf("%lu\n", sizeof(long));
 }
 
 

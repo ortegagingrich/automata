@@ -127,6 +127,41 @@ int count_linked_list(LinkedList *list){
 }
 
 
+int linked_list_contains(LinkedList *list, void* pattern){
+	/**
+	 * Checks to see if any entry in the provided list matches the data in
+	 * the memory indicated by the provided pointer.
+	 */
+	if(list == NULL){
+		return 0;
+	}
+	
+	struct linked_list_node *node = list->begin;
+	while(node != NULL){
+		//compare bytewise data
+		void *data = node->data;
+		int match = 1;
+		int j;
+		for(j = 0; j < list->data_size; j++){
+			unsigned char *pc, *dc;
+			pc = pattern + j;
+			dc = data + j;
+			if(*pc != *dc){
+				match = 0;
+			}
+		}
+		
+		if(match){
+			return 1;
+		}
+		node = node->next;
+	}
+	
+	//no matches
+	return 0;
+}
+
+
 void *get_linked_list(LinkedList *list, int n){
 	/**
 	 * Returns the nth element of the provided linked list if it exists.
@@ -182,7 +217,6 @@ void delete_linked_list(LinkedList *list){
 	/**
 	 * Frees all memory associated with the provided linked list.
 	 */
-	//TODO: replace this with functionality from pop function.
 	while(list->end != NULL){
 		struct linked_list_node *node = list->end;
 		list->end = node->last;
@@ -196,7 +230,7 @@ void delete_linked_list(LinkedList *list){
 /*
  * Tests
  */
-void linked_list_test(){
+int linked_list_test(){
 	/**
 	 * Entry point for tests
 	 */
@@ -207,25 +241,12 @@ void linked_list_test(){
 	
 	print_linked_list(list);
 	
+	int testval = 42;
+	printf("%d\n", linked_list_contains(list, &testval));
+	
 	delete_linked_list(list);
+	
+	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

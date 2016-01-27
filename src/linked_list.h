@@ -25,10 +25,11 @@ void append_linked_list(LinkedList*, void*);
 void *pop_linked_list(LinkedList*);
 
 int count_linked_list(LinkedList*);
+int link_list_contains(LinkedList, void*);
 void *get_linked_list(LinkedList*, int);
 void print_linked_list(LinkedList*);
 
 void delete_linked_list(LinkedList*);
 
 //test function
-void linked_list_test();
+int linked_list_test();

@@ -4,21 +4,23 @@
 #include "automata.h"
 #include "linked_list.h"
 
-void test();
-void test2();
+int test();
+int test2();
 
 int main(int argc, char *argv[]){
 	printf("Starting.\n");
+	int status = 0;
 	
-	//test();
-	//test2();
-	linked_list_test();
 	
-	return 0;
+	//status += test();
+	//status += test2();
+	status += linked_list_test();
+	
+	return status;
 }
 
 
-void test(){
+int test(){
 	FiniteAutomaton *j = create_automaton_char('j');
 	FiniteAutomaton *o = create_automaton_char('o');
 	FiniteAutomaton *g = create_automaton_char('g');
@@ -45,11 +47,15 @@ void test(){
 	delete_automaton(j);
 	delete_automaton(o);
 	delete_automaton(g);
+	
+	return 0;
 }
 
-void test2(){
+int test2(){
 	printf("%lu\n", sizeof(sizeof(struct automaton_transition)));
 	printf("%lu\n", sizeof(long));
+	
+	return 0;
 }
 
 

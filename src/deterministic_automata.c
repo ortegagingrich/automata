@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "automata.h"
+#include "linked_list.h"
 
 
 int automaton_is_deterministic(FiniteAutomaton *automaton){

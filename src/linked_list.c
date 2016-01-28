@@ -193,7 +193,7 @@ void print_linked_list(LinkedList *list){
 		printf("%3d || ", i);
 		
 		void *data = get_linked_list(list, i);
-		print_byte_data(data, list->data_size);
+		print_byte_data_hex(data, list->data_size);
 		
 		printf("\n");
 	}

@@ -97,20 +97,17 @@ int byte_data_test(){
 	i3[3] = 42;
 	
 	
-	print_byte_data(i3, sizeof(int));
+	print_byte_data_hex(i3, sizeof(int));
 	printf("\n");
 	
 	write_bit_byte_data(i3, 1, 0);
 	
-	print_byte_data(i3, sizeof(int));
+	print_byte_data_hex(i3, sizeof(int));
 	printf("\n");
 	
-	int i;
-	int n = 32;
-	for(i = 0; i < n; i++){
-		int bit = read_bit_byte_data(i3, i);
-		printf("%d", bit);
-	}
+	
+	print_byte_data_bin(i3, 8);
+	
 	printf("\n");
 	
 	free(i3);

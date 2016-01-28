@@ -29,6 +29,7 @@ int linked_list_contains(LinkedList*, void*);
 int linked_list_find(LinkedList*, void*);
 void *get_linked_list(LinkedList*, int);
 void print_linked_list(LinkedList*);
+void print_linked_list_bin(LinkedList*);
 
 void delete_linked_list(LinkedList*);
 void delete_linked_list_deep(LinkedList*);

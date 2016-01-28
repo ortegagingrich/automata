@@ -212,6 +212,30 @@ void print_linked_list(LinkedList *list){
 	print_separator_line('-');
 }
 
+
+void print_linked_list_bin(LinkedList *list){
+	/**
+	 * Prints the specified linked list to the console.  Each element's data
+	 * is printed byte-wise as a hexadecimal.
+	 */
+	printf("\n");
+	int n = count_linked_list(list);
+	printf("Linked List of length %d:\n", n);
+	print_separator_line('-');
+	
+	int i;
+	for(i = 0; i < n; i++){
+		printf("%3d || ", i);
+		
+		void *data = get_linked_list(list, i);
+		print_byte_data_bin(data, list->data_size);
+		
+		printf("\n");
+	}
+	
+	print_separator_line('-');
+}
+
 /*
  * Methods for deleting linked lists
  */

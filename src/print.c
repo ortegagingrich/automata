@@ -22,7 +22,7 @@ void print_byte_data_hex(void *data, unsigned long n_bytes){
 	int i;
 	for(i = 0; i < n_bytes; i++){
 		unsigned char *c = data + i;
-		printf("%2x", *c);
+		printf("%02x", *c);
 	}
 }
 

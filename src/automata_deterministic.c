@@ -79,6 +79,10 @@ static void process(void *tentative_state, void *previous_node, char tchar,
 	}
 	free(touched);
 	
+	if(byte_data_is_zero(new_state, data_size)){
+		return;
+	}
+	
 	//Add connection from previous node state to new state
 	if(previous_node != NULL){
 		append_linked_list(trans_from, previous_node);
@@ -91,7 +95,7 @@ static void process(void *tentative_state, void *previous_node, char tchar,
 	
 	
 	//check to see if there is already a node for this state, or if it is zero
-	if(linked_list_contains(node_list, new_state)||byte_data_is_zero(new_state, data_size)){
+	if(linked_list_contains(node_list, new_state)){
 		return;
 	}
 	
@@ -104,8 +108,11 @@ static void process(void *tentative_state, void *previous_node, char tchar,
 	*fstate = 0;
 	for(i = 0; i < automaton->n_nodes; i++){
 		if(read_bit_byte_data(new_state, i)){
-			*fstate = 1;
-			break;
+			struct automaton_node *node = automaton->nodes[i];
+			if(node->is_ending_state){
+				*fstate = 1;
+				break;
+			}
 		}
 	}
 	append_linked_list(finish, fstate);
@@ -246,12 +253,12 @@ FiniteAutomaton *create_automaton_deterministic(FiniteAutomaton *ndfa){
 	
 	
 	//clean up and exit
-	delete_linked_list(states);
-	delete_linked_list(finish);
-	delete_linked_list(tchars);
+	delete_linked_list_deep(states);
+	delete_linked_list_deep(finish);
+	delete_linked_list_deep(tchars);
 	delete_linked_list(trans_from);
 	delete_linked_list(trans_to);
-	delete_linked_list(trans_con);
+	delete_linked_list_deep(trans_con);
 	return automaton;
 }
 

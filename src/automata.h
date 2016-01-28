@@ -40,6 +40,7 @@ void delete_automaton(FiniteAutomaton*);
 /*
  * Methods specifically for deterministic finite automata. (deterministic_automata.c)
  */
+FiniteAutomaton *create_automaton_deterministic(FiniteAutomaton*);
 int automaton_is_deterministic(FiniteAutomaton*);
 int automaton_test_string(FiniteAutomaton*, char*, int);
 

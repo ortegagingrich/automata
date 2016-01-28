@@ -26,6 +26,7 @@ void *pop_linked_list(LinkedList*);
 
 int count_linked_list(LinkedList*);
 int linked_list_contains(LinkedList*, void*);
+int linked_list_find(LinkedList*, void*);
 void *get_linked_list(LinkedList*, int);
 void print_linked_list(LinkedList*);
 

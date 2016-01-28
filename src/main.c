@@ -13,10 +13,10 @@ int main(int argc, char *argv[]){
 	int status = 0;
 	
 	
-	//status += test();
+	status += test();
 	//status += test2();
 	//status += linked_list_test();
-	status += byte_data_test();
+	//status += byte_data_test();
 	
 	return status;
 }
@@ -27,11 +27,11 @@ int test(){
 	FiniteAutomaton *o = create_automaton_char('o');
 	FiniteAutomaton *g = create_automaton_char('g');
 	
-	print_automaton(j);
-	print_automaton(o);
-	print_automaton(g);
+	//print_automaton(j);
+	//print_automaton(o);
+	//print_automaton(g);
 	
-	FiniteAutomaton *a, *b, *c, *d, *e;
+	FiniteAutomaton *a, *b, *c, *d, *e, *f;
 	a = create_automaton_concatenation(j, o);
 	b = create_automaton_alternation(j, o);
 	c = create_automaton_alternation(b, g);
@@ -40,16 +40,25 @@ int test(){
 	e = create_automaton_iteration(c);
 	
 	
-	print_automaton(d);
+	//print_automaton(d);
 	print_automaton(e);
 	
-	delete_automaton(a);
+	f = create_automaton_deterministic(e);
+	print_automaton(f);
+	
+	
+	
+	
+	/*delete_automaton(a);
 	delete_automaton(b);
 	delete_automaton(c);
+	delete_automaton(d);
+	delete_automaton(e);
+	delete_automaton(f);
 	delete_automaton(j);
 	delete_automaton(o);
 	delete_automaton(g);
-	
+	*/
 	return 0;
 }
 

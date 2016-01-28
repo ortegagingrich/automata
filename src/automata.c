@@ -498,6 +498,10 @@ void print_automaton(FiniteAutomaton *automaton){
 	/**
 	 * Prints the specified finite automaton to the console.
 	 */
+	if(automaton == NULL){
+		printf("Finite Automaton is NULL.\n");
+		return;
+	}
 	int i, j;
 	printf("\n");
 	char *type;

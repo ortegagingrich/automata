@@ -128,28 +128,39 @@ int count_linked_list(LinkedList *list){
 }
 
 
-int linked_list_contains(LinkedList *list, void* pattern){
+int linked_list_contains(LinkedList *list, void *pattern){
 	/**
 	 * Checks to see if any entry in the provided list matches the data in
 	 * the memory indicated by the provided pointer.
 	 */
+	return linked_list_find(list, pattern) != -1;
+}
+
+
+int linked_list_find(LinkedList *list, void *pattern){
+	/**
+	 * Finds the index of the first list entry matching the provided pattern.
+	 * If no such entry exists, it returns -1.
+	 */
 	if(list == NULL){
-		return 0;
+		return -1;
 	}
 	
 	struct linked_list_node *node = list->begin;
+	int i = 0;
 	while(node != NULL){
 		//compare bytewise data
 		void *data = node->data;
 		if(compare_byte_data(data, pattern, list->data_size)){
-			return 1;
+			return i;
 		}
 		
 		node = node->next;
+		i++;
 	}
 	
 	//no matches
-	return 0;
+	return -1;
 }
 
 

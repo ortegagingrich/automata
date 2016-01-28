@@ -5,6 +5,7 @@
  */
 
 int compare_byte_data(void*, void*, unsigned long);
+int byte_data_is_zero(void*, unsigned long);
 int read_bit_byte_data(void*, int);
 void write_bit_byte_data(void*, int, int);
 

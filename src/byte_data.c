@@ -30,6 +30,18 @@ int compare_byte_data(void *data1, void *data2, unsigned long length){
 }
 
 
+int byte_data_is_zero(void *data, unsigned long length){
+	/**
+	 * Checks to see if the specified number of bytes at pointer data are zero.
+	 */
+	void *zero = calloc(length, 1);
+	int result = compare_byte_data(data, zero, length);
+	free(zero);
+	
+	return result;
+}
+
+
 int read_bit_byte_data(void *data, int offset){
 	/**
 	 * Reads and returns (as an integer), the specified bit offset from the

@@ -218,6 +218,22 @@ void delete_linked_list(LinkedList *list){
 }
 
 
+void delete_linked_list_deep(LinkedList *list){
+	/**
+	 * Deletes the linked list and frees the data pointer at each node.  Be
+	 * careful with this.
+	 */
+	while(list->end != NULL){
+		struct linked_list_node *node = list->end;
+		list->end = node->last;
+		free(node->data);
+		free(node);
+	}
+	
+	free(list);
+}
+
+
 /*
  * Tests
  */

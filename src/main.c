@@ -3,6 +3,7 @@
 
 #include "automata.h"
 #include "linked_list.h"
+#include "byte_data.h"
 
 int test();
 int test2();
@@ -14,7 +15,8 @@ int main(int argc, char *argv[]){
 	
 	//status += test();
 	//status += test2();
-	status += linked_list_test();
+	//status += linked_list_test();
+	status += byte_data_test();
 	
 	return status;
 }

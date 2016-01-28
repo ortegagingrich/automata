@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "byte_data.h"
 #include "linked_list.h"
 #include "print.h"
 
@@ -140,20 +141,10 @@ int linked_list_contains(LinkedList *list, void* pattern){
 	while(node != NULL){
 		//compare bytewise data
 		void *data = node->data;
-		int match = 1;
-		int j;
-		for(j = 0; j < list->data_size; j++){
-			unsigned char *pc, *dc;
-			pc = pattern + j;
-			dc = data + j;
-			if(*pc != *dc){
-				match = 0;
-			}
-		}
-		
-		if(match){
+		if(compare_byte_data(data, pattern, list->data_size)){
 			return 1;
 		}
+		
 		node = node->next;
 	}
 	
@@ -241,8 +232,10 @@ int linked_list_test(){
 	
 	print_linked_list(list);
 	
-	int testval = 42;
-	printf("%d\n", linked_list_contains(list, &testval));
+	int testval1 = 42;
+	int testval2 = 47;
+	printf("%d\n", linked_list_contains(list, &testval1));
+	printf("%d\n", linked_list_contains(list, &testval2));
 	
 	delete_linked_list(list);
 	

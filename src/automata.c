@@ -28,6 +28,11 @@ static FiniteAutomaton *create_automaton_empty(int size){
 		automaton->nodes[i] = node;
 	}
 	
+	//lookup table stuff
+	automaton->lookup_table = NULL;
+	automaton->transition_chars = NULL;
+	automaton->n_transition_chars = 0;
+	
 	return automaton;
 }
 
@@ -265,6 +270,7 @@ static void reduce(FiniteAutomaton *automaton){
 	delete_nodes(automaton->nodes, automaton->n_nodes);
 	free(new_identifiers);
 	*automaton = *reduced;
+	free(reduced);
 }
 
 
@@ -543,6 +549,9 @@ void delete_automaton(FiniteAutomaton *automaton){
 	/**
 	 * Frees all memory associated with the specified automaton
 	 */
+	
 	delete_nodes(automaton->nodes, automaton->n_nodes);
+	free(automaton->lookup_table);
+	free(automaton->transition_chars);
 	free(automaton);
 }

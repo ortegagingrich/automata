@@ -202,6 +202,11 @@ FiniteAutomaton *create_automaton_deterministic(FiniteAutomaton *ndfa){
 	 */
 	FiniteAutomaton *automaton = malloc(sizeof(FiniteAutomaton));
 	
+	
+	automaton->lookup_table = NULL;
+	automaton->transition_chars = NULL;
+	automaton->n_transition_chars = 0;
+	
 	int n = count_linked_list(states);
 	automaton->n_nodes = n;
 	automaton->starting_state = 0;
@@ -282,3 +287,176 @@ int automaton_is_deterministic(FiniteAutomaton *automaton){
 	
 	return 1;
 }
+
+
+/*
+ * Lookup Table/execution methods
+ */
+
+
+static void generate_lookup_table(FiniteAutomaton *automaton){
+	/**
+	 * Creates or updates the lookup table for the specified automaton.
+	 */
+	if(!automaton_is_deterministic(automaton)){
+		printf("Cannot generate a lookup table for a non-deterministic ");
+		printf("automaton.  Please convert to a deterministic automaton.");
+		return;
+	}
+	
+	printf("Generating lookup data for automata of size %d.\n", automaton->n_nodes);
+	
+	//Just to make sure there is no residual data
+	free(automaton->lookup_table);
+	free(automaton->transition_chars);
+	
+	/*
+	 * Index all characters used
+	 */
+	
+	//make a temporary list of transition characters
+	LinkedList *char_list = create_linked_list(sizeof(char));
+	automaton->n_transition_chars = 0;
+	int i, j, k;
+	for(i = 0; i < automaton->n_nodes; i++){
+		struct automaton_node *node = automaton->nodes[i];
+		for(j = 0; j < node->n_transitions; j++){
+			struct automaton_transition *t = node->transitions[j];
+			char *c = malloc(sizeof(char));
+			*c = t->condition;
+			if(!linked_list_contains(char_list, c)){
+				append_linked_list(char_list, c);
+				automaton->n_transition_chars++;
+			}else{
+				free(c);
+			}
+		}
+	}
+	
+	//make char index
+	int ntc = automaton->n_transition_chars;
+	automaton->transition_chars = malloc(ntc * sizeof(char));
+	for(i = 0; i < ntc; i++){
+		char *c = get_linked_list(char_list, i);
+		automaton->transition_chars[i] = *c;
+	}
+	delete_linked_list_deep(char_list);
+	
+	//allocate lookup table
+	int nspots = ntc * automaton->n_nodes;
+	automaton->lookup_table = malloc(nspots * sizeof(int));
+	
+	/*
+	 * Fill Lookup table
+	 */
+	//default values, indicating no move
+	for(i = 0; i < nspots; i++){
+		automaton->lookup_table[i] = -1;
+	}
+	
+	//loop over transitions
+	for(i = 0; i < automaton->n_nodes; i++){
+		struct automaton_node *node = automaton->nodes[i];
+		for(j = 0; j < node->n_transitions; j++){
+			struct automaton_transition *transition = node->transitions[j];
+			char c = transition->condition;
+			
+			//find index
+			int char_index = -1;
+			for(k = 0; k < ntc; k++){
+				if(c == automaton->transition_chars[k]){
+					char_index = k;
+					break;
+				}
+			}
+			//if no match
+			if(char_index == -1){
+				printf("This should never happen.\n");
+				exit(1);
+			}
+			
+			//fill in correct entry
+			int address = i * ntc + char_index;
+			automaton->lookup_table[address] = transition->identifier;
+		}
+	}
+}
+
+
+static int read_lookup_table(FiniteAutomaton *automaton, int id, char cond){
+	/**
+	 * Finds and returns the node of the appropriate transition if it exists,
+	 * otherwise, returns -1.
+	 */
+	if(automaton == NULL){
+		printf("Are you stupid? \n");
+		exit(1);
+	}
+	if(automaton->lookup_table == NULL){
+		generate_lookup_table(automaton);
+	}
+	
+	//get char index
+	int char_index = -1;
+	int i;
+	for(i = 0; i < automaton->n_transition_chars; i++){
+		if(cond == automaton->transition_chars[i]){
+			char_index = i;
+			break;
+		}
+	}
+	
+	//if no character of this type in table
+	if(char_index == -1){
+		return -1;
+	}
+	
+	//read from the array
+	int address = id * automaton->n_transition_chars + char_index;
+	return automaton->lookup_table[address];
+}
+
+
+/*
+ * Regex Methods
+ */
+int automaton_test_string(FiniteAutomaton *automaton, char* string, int length){
+	/**
+	 * Uses the provided automaton (assuming it is deterministic) to test the
+	 * provided string of the specified length.  Returns 0 for failure and 1 
+	 * for success.
+	 */
+	if(!automaton_is_deterministic(automaton)){
+		printf("Cannot test string \"%s\" with a non-deterministic ",string);
+		printf("automaton.  Please convert to a deterministic automaton.\n");
+		return 0;
+	}
+	
+	//check if lookup table exists yet
+	if(automaton->lookup_table == NULL){
+		generate_lookup_table(automaton);
+	}
+	
+	
+	//do simulation
+	int state = automaton->starting_state;
+	int i;
+	for(i = 0; i < length; i++){
+		char next_char = string[i];
+		int next_id = read_lookup_table(automaton, state, next_char);
+		if(next_id < 0){
+			//no path
+			return 0;
+		}
+		state = next_id;
+	}
+	
+	//check if we have a finished state
+	if(automaton->nodes[state]->is_ending_state){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+

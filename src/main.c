@@ -51,6 +51,10 @@ int test(){
 	det = create_automaton_deterministic(total);
 	print_automaton(det);
 	
+	char test_string[] = "jje o-g o o o-g";
+	int result = automaton_test_string(det, test_string, 15);
+	printf("String match: \"%s\" : %d\n", test_string, result);
+	
 	/*FiniteAutomaton *a, *b, *c, *d, *e, *f;
 	
 	a = create_automaton_concatenation(j, o);

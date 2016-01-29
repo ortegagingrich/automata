@@ -24,6 +24,11 @@ typedef struct finite_automaton {
 	 int n_nodes;
 	 int starting_state; //identifier for the starting state
 	 struct automaton_node **nodes;
+	 
+	 //lookup table data (only applicable for deterministic automata)
+	 int *lookup_table;
+	 char *transition_chars;
+	 int n_transition_chars;
 } FiniteAutomaton;
 
 /*

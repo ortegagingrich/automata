@@ -1,0 +1,2 @@
+Test implementation of finite automata, useful tools for conducting the lexical
+analysis (tokenization) phase of language compilation.
